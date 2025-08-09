@@ -1,3 +1,5 @@
+//Implementation of Deque using Linked List
+
 #include<iostream>
 using namespace std;
 
@@ -97,4 +99,108 @@ int main() {
     dq.pop_back();
     cout << "Front: " << dq.start() << ", Rear: " << dq.end() << endl;
     return 0;
+}
+
+// Implementation of Deque using array
+
+#include<iostream>
+using namespace std;
+
+class Dequeue{
+  int front,rear,size;
+  int *arr;
+  public:
+  Dequeue(int n){
+    size=n;
+    front=rear=-1;
+    arr=new int[n];
+  }
+  bool isEmpty(){
+    return front==-1;
+  }
+  bool isFull(){
+    return (rear+1)%size==front;
+  }
+  void push_front(int x){
+    if(isEmpty()){
+      front=rear=0;
+      arr[0]=x;
+      return;
+    }else if(isFull()){
+      cout<<"Dequeue is overflow"<<"\n";
+      return;
+    }else{
+      front = (front-1+size)%size;
+      arr[front]=x;
+      return;
+    }
+  }
+  void push_back(int x){
+    if(isEmpty()){
+      front=rear=0;
+      arr[0]=x;
+    }else if(isFull())
+      cout<<"Dequeue is overflow"<<"\n";
+    else{
+      rear = (rear+1+size)%size;
+      arr[rear]=x;
+    }
+    return;
+  }
+  void pop_front(){
+    if(isEmpty()){
+      cout<<"dequeue is underflow"<<"\n";
+      return;
+    }else{
+      if(front==rear){
+        front=rear=-1;
+        return;
+      }else{
+        front = (front+1+size)%size;
+        return;
+      }
+    }
+  }
+  void pop_back(){
+    if(isEmpty()){
+      cout<<"dequeue is underflow"<<"\n";
+      return;
+    }else{
+      if(front==rear){
+        front=rear=-1;
+        return;
+      }else{
+      rear=(rear-1+size)%size;
+      return;
+      }
+    }
+  }
+  int start(){
+    if(isEmpty()){
+      return -1;
+    }else{
+      return arr[front];
+    }
+  }
+  int end(){
+    if(isEmpty()){
+      return -1;
+    }else{
+      return arr[rear];
+    }
+  }
+};
+
+int main(){
+  Dequeue d1(5);
+  cout<<d1.isEmpty()<<"\n";
+  d1.pop_front();
+  d1.push_front(5);
+  d1.push_front(56);
+  d1.push_back(67);
+  d1.push_front(77);
+  d1.push_back(7);
+  cout<<d1.start()<<endl;
+  cout<<d1.end()<<endl;
+  cout<<d1.isFull()<<endl;
 }
